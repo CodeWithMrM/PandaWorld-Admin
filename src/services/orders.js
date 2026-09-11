@@ -1,8 +1,12 @@
 import api from '@/lib/api';
 
 export async function fetchCurrentUser() {
-  const { data } = await api.get('/auth/me');
-  return data.data;
+  const response = await api.get("/auth/me");
+
+  console.log("AUTH ME STATUS:", response.status);
+  console.log("AUTH ME RESPONSE:", response.data);
+
+  return response.data?.data;
 }
 
 export async function fetchOrderById(id) {
