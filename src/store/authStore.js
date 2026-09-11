@@ -10,10 +10,8 @@ export const useAuthStore = create((set, get) => ({
     set({ isLoading: true });
     try {
       const currentUser = await fetchCurrentUser();
-      console.log('Current user data:', currentUser);
       set({ currentUser, isLoading: false, hasFetched: true });
-    } catch (error) {
-      console.error('Error loading current user:', error);
+    } catch {
       set({ currentUser: null, isLoading: false, hasFetched: true });
     }
   },
