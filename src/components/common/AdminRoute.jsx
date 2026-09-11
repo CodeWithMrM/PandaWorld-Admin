@@ -1,17 +1,22 @@
 import { useEffect } from 'react';
-import { SignedIn, SignedOut, RedirectToSignIn } from '@clerk/clerk-react';
+import { SignedIn, SignedOut, RedirectToSignIn, useAuth } from '@clerk/clerk-react';
 import { useAuthStore } from '@/store/authStore';
 import { PageSpinner } from './LoadingSpinner';
 import { AccessDeniedPage } from '@/pages/AccessDeniedPage';
 
 function AdminGate({ children }) {
+  const { isLoaded: clerkLoaded } = useAuth();
   const { currentUser, isLoading, hasFetched, loadCurrentUser } = useAuthStore();
 
+  // Wait for Clerk to finish loading AND have registered the token getter
+  // before attempting to call /auth/me
   useEffect(() => {
-    if (!hasFetched) loadCurrentUser();
-  }, [hasFetched, loadCurrentUser]);
+    if (clerkLoaded && !hasFetched) {
+      loadCurrentUser();
+    }
+  }, [clerkLoaded, hasFetched, loadCurrentUser]);
 
-  if (isLoading) return <PageSpinner />;
+  if (!clerkLoaded || isLoading) return <PageSpinner />;
 
   if (currentUser?.role !== 'ADMIN') {
     // Note: unlike the storefront's AdminRoute (which redirects non-admins
