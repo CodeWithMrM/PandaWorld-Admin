@@ -1,28 +1,45 @@
-import { useEffect } from 'react';
-import { SignedIn, SignedOut, RedirectToSignIn, useAuth } from '@clerk/clerk-react';
-import { useAuthStore } from '@/store/authStore';
-import { PageSpinner } from './LoadingSpinner';
-import { AccessDeniedPage } from '@/pages/AccessDeniedPage';
+import { useEffect } from "react";
+import {
+  SignedIn,
+  SignedOut,
+  RedirectToSignIn,
+  useAuth,
+} from "@clerk/clerk-react";
+
+import { registerAuthTokenGetter } from "@/lib/api";
+import { useAuthStore } from "@/store/authStore";
+
+import { PageSpinner } from "./LoadingSpinner";
+import { AccessDeniedPage } from "@/pages/AccessDeniedPage";
 
 function AdminGate({ children }) {
-  const { isLoaded: clerkLoaded } = useAuth();
-  const { currentUser, isLoading, hasFetched, loadCurrentUser } = useAuthStore();
+  const { isLoaded: clerkLoaded, isSignedIn, getToken } = useAuth();
 
-  // Wait for Clerk to finish loading AND have registered the token getter
-  // before attempting to call /auth/me
+  const { currentUser, isLoading, hasFetched, loadCurrentUser } =
+    useAuthStore();
+
   useEffect(() => {
-    if (clerkLoaded && !hasFetched) {
+    if (!clerkLoaded || !isSignedIn) {
+      return;
+    }
+
+    // Register the Clerk token BEFORE requesting /auth/me.
+    registerAuthTokenGetter(getToken);
+
+    if (!hasFetched) {
       loadCurrentUser();
     }
-  }, [clerkLoaded, hasFetched, loadCurrentUser]);
+  }, [clerkLoaded, isSignedIn, getToken, hasFetched, loadCurrentUser]);
 
-  if (!clerkLoaded || isLoading) return <PageSpinner />;
+  if (!clerkLoaded || isLoading) {
+    return <PageSpinner />;
+  }
 
-  if (currentUser?.role !== 'ADMIN') {
-    // Note: unlike the storefront's AdminRoute (which redirects non-admins
-    // to '/'), this standalone app's '/' IS the admin dashboard, so
-    // redirecting there would loop. Show an explicit access-denied screen
-    // instead.
+  if (!currentUser) {
+    return <AccessDeniedPage />;
+  }
+
+  if (currentUser.role !== "ADMIN") {
     return <AccessDeniedPage />;
   }
 
@@ -35,6 +52,7 @@ export function AdminRoute({ children }) {
       <SignedIn>
         <AdminGate>{children}</AdminGate>
       </SignedIn>
+
       <SignedOut>
         <RedirectToSignIn />
       </SignedOut>

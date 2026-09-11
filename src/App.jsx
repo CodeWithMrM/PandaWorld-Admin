@@ -1,6 +1,4 @@
-import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { useAuth } from '@clerk/clerk-react';
 import { Toaster } from 'sonner';
 
 import { registerAuthTokenGetter } from '@/lib/api';
@@ -23,7 +21,7 @@ import { AdminReportsPage } from '@/pages/AdminReportsPage';
 import { AdminSettingsPage } from '@/pages/AdminSettingsPage';
 import { AdminUsersPage } from '@/pages/AdminUsersPage';
 
-function AuthBootstrap() {
+/* function AuthBootstrap() {
   const { getToken } = useAuth();
 
   // Give the axios client a way to fetch a fresh Clerk session token on
@@ -33,12 +31,13 @@ function AuthBootstrap() {
   }, [getToken]);
 
   return null;
-}
+} 
+*/
 
 export default function App() {
   return (
     <>
-      <AuthBootstrap />
+      
       <Toaster
         position="top-center"
         toastOptions={{
