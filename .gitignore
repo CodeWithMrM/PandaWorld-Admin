@@ -2,9 +2,7 @@ node_modules/
 dist/
 dist-ssr/
 .env
-.env.local
 .env.production.local
-.env.production
 .env.example 
 *.local
 .DS_Store
