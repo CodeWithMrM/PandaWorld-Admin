@@ -65,7 +65,7 @@ export function AdminNotificationsPage() {
         title="Notifications"
         description="Recent orders and inventory alerts, generated from live store data."
         actions={
-          <Button variant="default" size="sm" onClick={markAllRead}>
+          <Button variant="default" size="sm" className="w-full md:w-auto" onClick={markAllRead}>
             <Check className="h-4 w-4" /> Mark all as read
           </Button>
         }

@@ -32,7 +32,7 @@ export function AdminPromotionsPage() {
         title="Promotions & Coupons"
         description="Create and manage discount codes."
         actions={
-          <Button variant="solid" onClick={() => setFormOpen(true)}>
+          <Button variant="solid" className="w-full md:w-auto" onClick={() => setFormOpen(true)}>
             <Plus className="h-4 w-4" /> New Coupon
           </Button>
         }
@@ -48,7 +48,7 @@ export function AdminPromotionsPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
         {promotions.map((promo) => (
           <div key={promo.id} className="rounded-md border border-border bg-white p-5">
             <div className="mb-3 flex items-start justify-between">
@@ -79,7 +79,7 @@ export function AdminPromotionsPage() {
       </div>
 
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
-        <DialogContent className="max-w-sm p-8">
+        <DialogContent className="max-w-sm p-5 md:p-8">
           <DialogTitle className="mb-6">New Coupon</DialogTitle>
           <form onSubmit={handleCreate} className="flex flex-col gap-4">
             <FloatingField id="promo-code" label="Coupon code" value={form.code} onChange={(e) => setForm((f) => ({ ...f, code: e.target.value }))} />

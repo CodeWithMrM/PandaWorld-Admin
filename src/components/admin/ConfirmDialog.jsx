@@ -4,10 +4,10 @@ import { Button } from '@/components/ui/button';
 export function ConfirmDialog({ open, onOpenChange, title, description, confirmLabel = 'Confirm', onConfirm, isDestructive = true, isLoading = false }) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-sm p-8">
+      <DialogContent className="max-w-sm p-5 md:p-8">
         <DialogTitle>{title}</DialogTitle>
         {description && <DialogDescription className="mt-2">{description}</DialogDescription>}
-        <div className="mt-6 flex gap-3">
+        <div className="mt-6 flex flex-col gap-3 md:flex-row">
           <Button variant="default" className="flex-1" onClick={() => onOpenChange(false)} disabled={isLoading}>
             Cancel
           </Button>

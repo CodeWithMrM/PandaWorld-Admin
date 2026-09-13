@@ -119,6 +119,7 @@ export function AdminProductsPage() {
         actions={
           <Button
             variant="solid"
+            className="w-full md:w-auto"
             onClick={() => {
               setEditingProduct(null);
               setFormOpen(true);

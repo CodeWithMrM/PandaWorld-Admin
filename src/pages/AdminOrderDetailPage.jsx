@@ -66,17 +66,17 @@ export function AdminOrderDetailPage() {
             </div>
             <ul className="divide-y divide-border">
               {order.items?.map((item) => (
-                <li key={item.id} className="flex items-center gap-4 p-5">
+                <li key={item.id} className="flex items-start gap-3 p-4 md:items-center md:gap-4 md:p-5">
                   <div className="h-16 w-14 shrink-0 overflow-hidden rounded-sm bg-surface-muted">
                     {item.product?.imageUrl && (
                       <img src={item.product.imageUrl} alt="" className="h-full w-full object-cover" />
                     )}
                   </div>
-                  <div className="flex-1">
-                    <p className="text-sm font-semibold text-ink">{item.product?.name}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="break-words text-sm font-semibold text-ink">{item.product?.name}</p>
                     <p className="text-xs text-ink/45">Qty {item.quantity} × {formatCurrency(item.price)}</p>
                   </div>
-                  <span className="text-sm font-bold text-ink">{formatCurrency(item.price * item.quantity)}</span>
+                  <span className="shrink-0 text-sm font-bold text-ink">{formatCurrency(item.price * item.quantity)}</span>
                 </li>
               ))}
             </ul>

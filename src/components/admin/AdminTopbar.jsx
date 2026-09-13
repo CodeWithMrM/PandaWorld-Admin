@@ -7,7 +7,7 @@ export function AdminTopbar({ onMenuClick }) {
   const unreadCount = useNotificationsStore((s) => s.unreadCount());
 
   return (
-    <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-border bg-white px-4 sm:px-6">
+    <header className="flex h-[72px] shrink-0 items-center justify-between border-b border-border bg-white px-4 md:px-6">
       <div className="flex items-center gap-3">
         <button
           onClick={onMenuClick}
@@ -16,7 +16,7 @@ export function AdminTopbar({ onMenuClick }) {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <div className="relative hidden max-w-sm flex-1 sm:block">
+        <div className="relative hidden max-w-sm flex-1 md:block">
           <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-ink/35" />
           <input
             type="text"

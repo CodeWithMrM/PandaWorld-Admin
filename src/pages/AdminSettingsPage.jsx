@@ -40,7 +40,7 @@ export function AdminSettingsPage() {
       <form onSubmit={handleSave} className="grid max-w-xl grid-cols-1 gap-6">
         <section>
           <h3 className="mb-3 font-display text-base font-bold">Store Information</h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <FloatingField id="s-name" label="Store name" value={form.storeName} onChange={handleField('storeName')} />
             <FloatingField id="s-email" label="Support email" type="email" value={form.supportEmail} onChange={handleField('supportEmail')} />
           </div>
@@ -48,7 +48,7 @@ export function AdminSettingsPage() {
 
         <section>
           <h3 className="mb-3 font-display text-base font-bold">Shipping Defaults</h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             <FloatingField id="s-threshold" label="Free shipping over (R)" type="number" value={form.freeShippingThreshold} onChange={handleField('freeShippingThreshold')} />
             <FloatingField id="s-standard" label="Standard fee (R)" type="number" value={form.standardShippingFee} onChange={handleField('standardShippingFee')} />
             <FloatingField id="s-express" label="Express fee (R)" type="number" value={form.expressShippingFee} onChange={handleField('expressShippingFee')} />
@@ -61,7 +61,7 @@ export function AdminSettingsPage() {
           <p className="text-sm text-ink/60">South African Rand (ZAR) — set by PayFast integration, not editable here.</p>
         </section>
 
-        <Button type="submit" variant="solid" size="lg" className="w-fit">
+        <Button type="submit" variant="solid" size="lg" className="w-full md:w-fit">
           Save Settings
         </Button>
       </form>

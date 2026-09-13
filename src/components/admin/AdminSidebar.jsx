@@ -50,7 +50,7 @@ const NAV_GROUPS = [
   },
 ];
 
-export function AdminSidebar({ className }) {
+export function AdminSidebar({ className, onNavigate }) {
   const unreadCount = useNotificationsStore((s) => s.unreadCount());
 
   return (
@@ -74,6 +74,7 @@ export function AdminSidebar({ className }) {
                   <NavLink
                     to={item.to}
                     end={item.end}
+                    onClick={onNavigate}
                     className={({ isActive }) =>
                       cn(
                         'flex items-center justify-between gap-3 rounded-sm px-3 py-2.5 text-sm font-medium transition-colors',

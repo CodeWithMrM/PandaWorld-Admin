@@ -109,7 +109,7 @@ export function AdminCategoriesPage() {
         title="Categories"
         description="Organize your catalog into shoppable categories."
         actions={
-          <Button variant="solid" onClick={openNew}>
+          <Button variant="solid" className="w-full md:w-auto" onClick={openNew}>
             <Plus className="h-4 w-4" /> Add Category
           </Button>
         }
@@ -128,7 +128,7 @@ export function AdminCategoriesPage() {
       />
 
       <Dialog open={formOpen} onOpenChange={setFormOpen}>
-        <DialogContent className="max-w-sm p-8">
+        <DialogContent className="max-w-sm p-5 md:p-8">
           <DialogTitle className="mb-6">{editingCategory ? 'Edit Category' : 'Add Category'}</DialogTitle>
           <form onSubmit={handleSave} className="flex flex-col gap-4">
             <FloatingField id="cat-name" label="Category name" value={name} onChange={(e) => setName(e.target.value)} />

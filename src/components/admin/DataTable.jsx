@@ -58,7 +58,7 @@ export function DataTable({
             <div />
           )}
           {selectable && selectedIds.length > 0 && (
-            <div className="flex items-center gap-3">
+            <div className="flex w-full flex-wrap items-center gap-3 md:w-auto md:flex-nowrap">
               <span className="text-xs font-semibold text-ink/60">{selectedIds.length} selected</span>
               {bulkActions}
             </div>
@@ -67,7 +67,7 @@ export function DataTable({
       )}
 
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm">
+        <table className="min-w-[640px] w-full text-left text-sm">
           <thead className="border-b border-border bg-surface-muted text-xs font-semibold uppercase tracking-wide text-ink/50">
             <tr>
               {selectable && (

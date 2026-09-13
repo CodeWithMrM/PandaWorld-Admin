@@ -55,7 +55,7 @@ export function AdminReviewsPage() {
             </div>
             <RatingStars rating={review.rating} className="mb-2" />
             <p className="mb-4 text-sm text-ink/70">{review.comment}</p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {review.status !== 'approved' && (
                 <button
                   onClick={() => setStatus(review.id, 'approved')}

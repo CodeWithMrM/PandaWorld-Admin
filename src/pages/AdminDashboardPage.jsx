@@ -64,7 +64,7 @@ export function AdminDashboardPage() {
     <div>
       <PageHeader title="Dashboard" description="Here's what's happening across PandaWorld right now." />
 
-      <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-8 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <StatCard icon={DollarSign} label="Revenue (recent orders)" value={formatCurrency(stats.revenueSample)} />
         <StatCard icon={ShoppingCart} label="Total Orders" value={stats.totalOrders} />
         <StatCard icon={Users} label="Total Customers" value={stats.totalCustomers} />
@@ -73,7 +73,7 @@ export function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="rounded-md border border-border bg-white p-5 lg:col-span-2">
-          <div className="mb-4 flex items-center justify-between">
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
             <h3 className="flex items-center gap-2 font-display text-lg font-bold">
               <Clock className="h-4 w-4 text-ink/50" /> Recent Activity
             </h3>
@@ -86,14 +86,14 @@ export function AdminDashboardPage() {
           ) : (
             <ul className="divide-y divide-border">
               {recentOrders.map((order) => (
-                <li key={order.id} className="flex items-center justify-between py-3">
-                  <div>
-                    <p className="text-sm font-semibold text-ink">
+                <li key={order.id} className="flex flex-col gap-2 py-3 md:flex-row md:items-center md:justify-between">
+                  <div className="min-w-0">
+                    <p className="break-words text-sm font-semibold text-ink">
                       Order #{order.id.slice(-8).toUpperCase()} — {order.user?.name || 'Customer'}
                     </p>
                     <p className="text-xs text-ink/45">{formatDate(order.createdAt)}</p>
                   </div>
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-wrap items-center gap-3 md:justify-end">
                     <OrderStatusBadge status={order.status} />
                     <span className="text-sm font-bold text-ink">{formatCurrency(order.total)}</span>
                   </div>
@@ -112,8 +112,8 @@ export function AdminDashboardPage() {
           ) : (
             <ul className="flex flex-col gap-3">
               {lowStockProducts.map((p) => (
-                <li key={p.id} className="flex items-center justify-between">
-                  <Link to="/inventory" className="text-sm text-ink/75 hover:text-ink line-clamp-1">
+                <li key={p.id} className="flex items-center justify-between gap-3">
+                  <Link to="/inventory" className="min-w-0 text-sm text-ink/75 hover:text-ink line-clamp-1">
                     {p.name}
                   </Link>
                   <span className="text-xs font-bold text-accent">{p.stock} left</span>

@@ -45,7 +45,7 @@ export function AdminCustomerDetailPage() {
 
       <PageHeader title={customer.name} description={customer.email} />
 
-      <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className="rounded-md border border-border bg-white p-5">
           <p className="text-xs font-semibold uppercase tracking-wide text-ink/45">Total Orders</p>
           <p className="mt-1 font-display text-xl font-bold">{orders.length}</p>
@@ -76,7 +76,7 @@ export function AdminCustomerDetailPage() {
                   </Link>
                   <p className="text-xs text-ink/45">{formatDate(order.createdAt)}</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                   <OrderStatusBadge status={order.status} />
                   <PaymentStatusBadge status={order.paymentStatus} />
                   <span className="text-sm font-bold text-ink">{formatCurrency(order.total)}</span>

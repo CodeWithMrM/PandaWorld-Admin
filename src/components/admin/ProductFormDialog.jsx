@@ -57,17 +57,17 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-2xl p-8">
+      <DialogContent className="max-w-2xl p-5 md:p-8">
         <DialogTitle className="mb-6">{product ? 'Edit Product' : 'Create Product'}</DialogTitle>
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <FloatingField id="p-name" label="Product name" className="sm:col-span-2" value={form.name} onChange={handleField('name')} />
-          <div className="sm:col-span-2">
+        <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <FloatingField id="p-name" label="Product name" className="md:col-span-2" value={form.name} onChange={handleField('name')} />
+          <div className="md:col-span-2">
             <Label className="mb-1.5 block">Description</Label>
             <Textarea value={form.description} onChange={handleField('description')} placeholder="Product description" />
           </div>
           <FloatingField id="p-price" label="Price (ZAR)" type="number" step="0.01" min="0" value={form.price} onChange={handleField('price')} />
           <FloatingField id="p-stock" label="Stock quantity" type="number" min="0" value={form.stock} onChange={handleField('stock')} />
-          <div className="sm:col-span-2">
+          <div className="md:col-span-2">
             <Label className="mb-1.5 block">Category</Label>
             <Select value={form.categoryId} onValueChange={(v) => setForm((f) => ({ ...f, categoryId: v }))}>
               <SelectTrigger>
@@ -82,7 +82,7 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
               </SelectContent>
             </Select>
           </div>
-          <div className="sm:col-span-2">
+          <div className="md:col-span-2">
             <Label className="mb-1.5 block">Product Image</Label>
             <input
               type="file"
@@ -94,7 +94,7 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
               <img src={product.imageUrl} alt="" className="mt-3 h-20 w-16 rounded-sm object-cover" />
             )}
           </div>
-          <Button type="submit" variant="solid" size="lg" className="sm:col-span-2 mt-2" disabled={isSaving}>
+          <Button type="submit" variant="solid" size="lg" className="md:col-span-2 mt-2" disabled={isSaving}>
             {isSaving ? 'Saving…' : product ? 'Save Changes' : 'Create Product'}
           </Button>
         </form>
