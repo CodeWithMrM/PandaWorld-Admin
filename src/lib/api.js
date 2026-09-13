@@ -17,15 +17,24 @@ export function registerAuthTokenGetter(fn) {
 }
 
 api.interceptors.request.use(async (config) => {
+  console.log("API REQUEST:", config.method?.toUpperCase(), config.url);
+  console.log("Token getter exists:", !!getTokenFn);
+
   if (getTokenFn) {
     try {
       const token = await getTokenFn();
-      if (token) config.headers.Authorization = `Bearer ${token}`;
-    } catch {
-      // Not signed in — request proceeds unauthenticated; the backend will
-      // 401 on routes that require it, which callers already handle.
+
+      console.log("Clerk token received:", !!token);
+
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+        console.log("Authorization header attached");
+      }
+    } catch (error) {
+      console.error("Failed to get Clerk token:", error);
     }
   }
+
   return config;
 });
 
