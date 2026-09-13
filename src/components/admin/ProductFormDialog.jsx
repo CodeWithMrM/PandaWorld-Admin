@@ -3,7 +3,6 @@ import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { FloatingField, Label, Textarea } from '@/components/ui/input';
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { createProduct, updateProduct } from '@/services/products';
 
 const emptyForm = { name: '', description: '', price: '', stock: '', categoryId: '' };
@@ -60,27 +59,33 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
       <DialogContent className="max-w-2xl p-5 md:p-8">
         <DialogTitle className="mb-6">{product ? 'Edit Product' : 'Create Product'}</DialogTitle>
         <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <FloatingField id="p-name" label="Product name" className="md:col-span-2" value={form.name} onChange={handleField('name')} />
+          <FloatingField id="p-name" label="Product name" className="md:col-span-2" value={form.name} onChange={handleField('name')} required />
           <div className="md:col-span-2">
             <Label className="mb-1.5 block">Description</Label>
             <Textarea value={form.description} onChange={handleField('description')} placeholder="Product description" />
           </div>
-          <FloatingField id="p-price" label="Price (ZAR)" type="number" step="0.01" min="0" value={form.price} onChange={handleField('price')} />
+          <FloatingField id="p-price" label="Price (ZAR)" type="number" step="0.01" min="0" value={form.price} onChange={handleField('price')} required />
           <FloatingField id="p-stock" label="Stock quantity" type="number" min="0" value={form.stock} onChange={handleField('stock')} />
           <div className="md:col-span-2">
             <Label className="mb-1.5 block">Category</Label>
-            <Select value={form.categoryId} onValueChange={(v) => setForm((f) => ({ ...f, categoryId: v }))}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select a category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat.id} value={cat.id}>
-                    {cat.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <select
+              id="p-category"
+              value={form.categoryId}
+              onChange={handleField('categoryId')}
+              required
+              className="flex h-12 w-full rounded-sm border border-border bg-white px-4 text-sm font-medium text-ink transition-colors focus:border-ink focus:outline-none focus-visible:ring-1 focus-visible:ring-ink disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={categories.length === 0}
+            >
+              <option value="">{categories.length === 0 ? 'No categories available' : 'Select a category'}</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+            {categories.length === 0 && (
+              <p className="mt-1.5 text-xs text-accent">Create a category before adding a product.</p>
+            )}
           </div>
           <div className="md:col-span-2">
             <Label className="mb-1.5 block">Product Image</Label>

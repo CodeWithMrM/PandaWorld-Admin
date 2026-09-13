@@ -43,8 +43,8 @@ Label.displayName = 'Label';
  * at rest and floats above it once focused/filled. Wraps Input above.
  */
 const FloatingField = React.forwardRef(
-  ({ label, id, className, error, helperText, ...props }, ref) => {
-    const [hasValue, setHasValue] = React.useState(Boolean(props.value || props.defaultValue));
+  ({ label, id, className, error, helperText, onChange, value, defaultValue, ...props }, ref) => {
+    const [hasValue, setHasValue] = React.useState(Boolean(value || defaultValue));
     return (
       <div className={cn('relative', className)}>
         <input
@@ -55,9 +55,11 @@ const FloatingField = React.forwardRef(
             error ? 'border-accent focus-visible:ring-accent' : 'border-border focus:border-ink'
           )}
           placeholder={label}
+          value={value}
+          defaultValue={defaultValue}
           onChange={(e) => {
             setHasValue(Boolean(e.target.value));
-            props.onChange?.(e);
+            onChange?.(e);
           }}
           {...props}
         />
