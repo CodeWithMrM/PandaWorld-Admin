@@ -3,9 +3,6 @@ import api from '@/lib/api';
 export async function fetchCurrentUser() {
   const response = await api.get("/auth/me");
 
-  console.log("AUTH ME STATUS:", response.status);
-  console.log("AUTH ME RESPONSE:", response.data);
-
   return response.data?.data;
 }
 
