@@ -3,13 +3,15 @@ import { toast } from 'sonner';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { FloatingField, Label, Textarea } from '@/components/ui/input';
-import { createProduct, updateProduct } from '@/services/products';
+import { createProduct, updateProduct, uploadProductImage } from '@/services/products';
 
 const emptyForm = { name: '', description: '', price: '', stock: '', categoryId: '' };
 
 export function ProductFormDialog({ open, onOpenChange, categories, product, onSaved }) {
   const [form, setForm] = useState(emptyForm);
-  const [imageFile, setImageFile] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -24,7 +26,9 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
     } else {
       setForm(emptyForm);
     }
-    setImageFile(null);
+    setUploadedImage(null);
+    setUploadProgress(0);
+    setIsUploading(false);
   }, [product, open]);
 
   const handleField = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
@@ -37,7 +41,13 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
     }
     setIsSaving(true);
     try {
-      const payload = { ...form, imageFile };
+      if (isUploading) {
+        toast.error('Wait for the image upload to finish');
+        return;
+      }
+      const payload = uploadedImage
+        ? { ...form, imageUrl: uploadedImage.url, imageFileId: uploadedImage.fileId }
+        : form;
       if (product) {
         await updateProduct(product.id, payload);
         toast.success('Product updated');
@@ -51,6 +61,24 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
       toast.error(err.message || 'Could not save product');
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleImageChange = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    setUploadProgress(0);
+    try {
+      const image = await uploadProductImage(file, setUploadProgress);
+      setUploadedImage(image);
+      toast.success('Image uploaded');
+    } catch (err) {
+      setUploadedImage(null);
+      toast.error(err.message || 'Image upload failed');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -91,16 +119,19 @@ export function ProductFormDialog({ open, onOpenChange, categories, product, onS
             <Label className="mb-1.5 block">Product Image</Label>
             <input
               type="file"
-              accept="image/*"
-              onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+              accept="image/jpeg,image/png,image/webp,image/gif"
+              onChange={handleImageChange}
+              disabled={isUploading || isSaving}
               className="block w-full text-sm text-ink/70"
             />
-            {product?.imageUrl && !imageFile && (
-              <img src={product.imageUrl} alt="" className="mt-3 h-20 w-16 rounded-sm object-cover" />
+            <p className="mt-1.5 text-xs text-ink/60">JPEG, PNG, WebP, or GIF — maximum 5 MB.</p>
+            {isUploading && <p className="mt-1.5 text-xs text-ink/70">Uploading image… {uploadProgress}%</p>}
+            {(uploadedImage?.url || product?.imageUrl) && (
+              <img src={uploadedImage?.url || product.imageUrl} alt="Product preview" className="mt-3 h-20 w-16 rounded-sm object-cover" />
             )}
           </div>
-          <Button type="submit" variant="solid" size="lg" className="md:col-span-2 mt-2" disabled={isSaving}>
-            {isSaving ? 'Saving…' : product ? 'Save Changes' : 'Create Product'}
+          <Button type="submit" variant="solid" size="lg" className="md:col-span-2 mt-2" disabled={isSaving || isUploading}>
+            {isUploading ? 'Uploading Image…' : isSaving ? 'Saving…' : product ? 'Save Changes' : 'Create Product'}
           </Button>
         </form>
       </DialogContent>
